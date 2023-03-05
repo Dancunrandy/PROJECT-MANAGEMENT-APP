@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import EditProject from './EditProject';
 import DeleteProject from './DeleteProject';
-import LogoutButton from '../LogoutButton';
 import Dashboard from '../Dashboard';
 
 const ProjectForm = () => {
@@ -46,7 +45,6 @@ const ProjectForm = () => {
       <EditProject/>
       <DeleteProject/>
       <Dashboard/>
-      <LogoutButton/>
       <form onSubmit={handleSubmit}>
         <label htmlFor="projectName">Project Name:</label>
         <input
