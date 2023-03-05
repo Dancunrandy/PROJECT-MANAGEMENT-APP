@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import EditProject from './EditProject';
+import DeleteProject from './DeleteProject';
+import LogoutButton from '../LogoutButton';
+import Dashboard from '../Dashboard';
 
 const ProjectForm = () => {
   const [projectName, setProjectName] = useState('');
@@ -7,16 +11,16 @@ const ProjectForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     // Define the new project object
     const newProject = {
       name: projectName,
       description: projectDescription,
       url: projectUrl
     };
-    
+
     // Send the new project to the server
-    fetch('/api/projects', {
+    fetch(`http://localhost:9292/projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -38,32 +42,38 @@ const ProjectForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="projectName">Project Name:</label>
-      <input
-        id="projectName"
-        type="text"
-        value={projectName}
-        onChange={e => setProjectName(e.target.value)}
-        required
-      />
-      <label htmlFor="projectDescription">Project Description:</label>
-      <textarea
-        id="projectDescription"
-        value={projectDescription}
-        onChange={e => setProjectDescription(e.target.value)}
-        required
-      />
-      <label htmlFor="projectUrl">Project URL:</label>
-      <input
-        id="projectUrl"
-        type="url"
-        value={projectUrl}
-        onChange={e => setProjectUrl(e.target.value)}
-        required
-      />
-      <button type="submit">Add Project</button>
-    </form>
+    <div>
+      <EditProject/>
+      <DeleteProject/>
+      <Dashboard/>
+      <LogoutButton/>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="projectName">Project Name:</label>
+        <input
+          id="projectName"
+          type="text"
+          value={projectName}
+          onChange={e => setProjectName(e.target.value)}
+          required
+        />
+        <label htmlFor="projectDescription">Project Description:</label>
+        <textarea
+          id="projectDescription"
+          value={projectDescription}
+          onChange={e => setProjectDescription(e.target.value)}
+          required
+        />
+        <label htmlFor="projectUrl">Project URL:</label>
+        <input
+          id="projectUrl"
+          type="url"
+          value={projectUrl}
+          onChange={e => setProjectUrl(e.target.value)}
+          required
+        />
+        <button type="submit">Add Project</button>
+      </form>
+    </div>
   );
 };
 

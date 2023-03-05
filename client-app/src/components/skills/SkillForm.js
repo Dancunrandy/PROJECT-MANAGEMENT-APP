@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
+import DeleteSkill from './DeleteSkill';
+import AddSkill from './AddSkill';
 
-function EditSkill({ skill }) {
+function SkillForm({ skill }) {
   // set initial state for skillName and skillLevel using the 'useState' hook
   const [skillName, setSkillName] = useState(skill.name);
   const [skillLevel, setSkillLevel] = useState(skill.level);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     // make a PUT request to update skill in the database
     const skillId = skill.id; // assuming skill object has an id property
     const updatedSkill = { id: skillId, name: skillName, level: skillLevel };
-  
-    fetch(`/api/skills/${skillId}`, {
+
+    fetch(`http://localhost:9292/skills/${skillId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -28,22 +30,26 @@ function EditSkill({ skill }) {
       .catch((error) => {
         console.error(error);
       });
-  
+
     // close the edit form
     handleClose();
   };
-  
+
   const handleClose = () => {
     // close the edit form
   };
-  
+
   return (
     <div>
       <h2>Edit Skill</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
-          <input type="text" value={skillName} onChange={(event) => setSkillName(event.target.value)} />
+          <input
+            type="text"
+            value={skillName}
+            onChange={(event) => setSkillName(event.target.value)}
+          />
         </label>
         <label>
           Level:
@@ -57,8 +63,10 @@ function EditSkill({ skill }) {
         <button type="submit">Update Skill</button>
       </form>
       <button onClick={handleClose}>Cancel</button>
+      <DeleteSkill />
+      <AddSkill />
     </div>
   );
 }
 
-export default EditSkill;
+export default SkillForm;

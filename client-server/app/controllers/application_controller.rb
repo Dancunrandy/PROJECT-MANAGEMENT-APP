@@ -12,6 +12,9 @@ class ApplicationController < Sinatra::Base
     get "/users" do
       @users=User.all.to_json
     end
+    get "/registers" do
+      @registers=Register.all.to_json
+    end
     get "/" do
       { message: "Good luck with your project!" }.to_json
     end

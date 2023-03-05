@@ -13,11 +13,11 @@ function DeleteProject({ project, onDelete }) {
       {showConfirmation ? (
         <div>
           <p>Are you sure you want to delete this project?</p>
-          <button onClick={handleDelete}>Yes</button>
-          <button onClick={() => setShowConfirmation(false)}>No</button>
+          <button className='Delete Buuton' onClick={handleDelete}>Yes</button>
+          <button className='Delete Button' onClick={() => setShowConfirmation(false)}>No</button>
         </div>
       ) : (
-        <button onClick={() => setShowConfirmation(true)}>Delete</button>
+        <button className='Delete Button' onClick={() => setShowConfirmation(true)}>Delete</button>
       )}
     </div>
   );

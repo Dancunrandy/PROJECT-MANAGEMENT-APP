@@ -5,7 +5,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch('/api/login', {
+    fetch(`http://localhost:9292/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

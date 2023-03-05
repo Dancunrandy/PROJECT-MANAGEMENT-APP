@@ -14,7 +14,7 @@ function AddSkill() {
     };
   
     // Send the new skill to the server
-    fetch('/api/skills', {
+    fetch('http://localhost:9292/skills', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SkillForm from '../skills/SkillForm';
 
 function EditProject({ project, handleClose }) {
   const [projectName, setProjectName] = useState(project.name);
@@ -12,7 +13,7 @@ function EditProject({ project, handleClose }) {
     const projectId = project.id;
     const updatedProject = { name: projectName, description: projectDescription, url: projectUrl };
   
-    fetch(`/api/projects/${projectId}`, {
+    fetch(`http://localhost:9292/projects/${projectId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -50,6 +51,7 @@ function EditProject({ project, handleClose }) {
         </label>
         <button type="submit">Update Project</button>
       </form>
+      <SkillForm/>
     </div>
   );
 }

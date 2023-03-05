@@ -8,7 +8,7 @@ const Register = () => {
   const handleRegister = (e) => {
     e.preventDefault();
     // Send register request to server
-    fetch('http://localhost:3000/register', {
+    fetch(`http://localhost:9292/registers`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
