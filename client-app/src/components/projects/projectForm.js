@@ -1,39 +1,31 @@
-import React, { useState } from 'react';
-import EditProject from './EditProject';
-import DeleteProject from './DeleteProject';
-import Dashboard from '../Dashboard';
+import { useState } from 'react';
+import LogoutButton from '../LogoutButton';
 
 const ProjectForm = () => {
-  const [projectName, setProjectName] = useState('');
-  const [projectDescription, setProjectDescription] = useState('');
-  const [projectUrl, setProjectUrl] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Define the new project object
-    const newProject = {
-      name: projectName,
-      description: projectDescription,
-      url: projectUrl
-    };
-
-    // Send the new project to the server
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Send project data to server
     fetch(`http://localhost:9292/projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newProject)
+      body: JSON.stringify({
+        name,
+        description
+      })
     })
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      // Reset the form fields
-      setProjectName('');
-      setProjectDescription('');
-      setProjectUrl('');
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
@@ -42,37 +34,27 @@ const ProjectForm = () => {
 
   return (
     <div>
-      <EditProject/>
-      <DeleteProject/>
-      <Dashboard/>
+      <h1>Create Project</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="projectName">Project Name:</label>
-        <input
-          id="projectName"
-          type="text"
-          value={projectName}
-          onChange={e => setProjectName(e.target.value)}
-          required
-        />
-        <label htmlFor="projectDescription">Project Description:</label>
-        <textarea
-          id="projectDescription"
-          value={projectDescription}
-          onChange={e => setProjectDescription(e.target.value)}
-          required
-        />
-        <label htmlFor="projectUrl">Project URL:</label>
-        <input
-          id="projectUrl"
-          type="url"
-          value={projectUrl}
-          onChange={e => setProjectUrl(e.target.value)}
-          required
-        />
-        <button type="submit">Add Project</button>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <label>
+          Description:
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
+        </label>
+        <button type="submit">Create</button>
+        <LogoutButton/>
       </form>
     </div>
   );
 };
-
 export default ProjectForm;

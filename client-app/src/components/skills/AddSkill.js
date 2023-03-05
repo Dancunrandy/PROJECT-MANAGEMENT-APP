@@ -1,61 +1,60 @@
 import React, { useState } from 'react';
 
-function AddSkill() {
-  const [skillName, setSkillName] = useState('');
-  const [skillLevel, setSkillLevel] = useState('');
+const AddSkill = () => {
+  const [name, setName] = useState('');
+  const [level, setLevel] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  
-    // Define the new skill object
-    const newSkill = {
-      name: skillName,
-      level: skillLevel
-    };
-  
-    // Send the new skill to the server
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Send add skill request to server
     fetch(`http://localhost:9292/skills`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newSkill)
+      body: JSON.stringify({
+        name,
+        level
+      })
     })
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      // Reset the form fields
-      setSkillName('');
-      setSkillLevel('');
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
     })
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
     });
   };
-  
 
   return (
     <div>
-      <h2>Add Skill</h2>
+      <h1>Add Skill</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
-          <input type="text" value={skillName} onChange={(event) => setSkillName(event.target.value)} />
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </label>
         <label>
           Level:
-          <select value={skillLevel} onChange={(event) => setSkillLevel(event.target.value)}>
-            <option value="">Select Level</option>
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advanced">Advanced</option>
-          </select>
+          <input
+            type="text"
+            value={level}
+            onChange={(e) => setLevel(e.target.value)}
+          />
         </label>
         <button type="submit">Add Skill</button>
       </form>
     </div>
   );
-}
+};
 
 export default AddSkill;

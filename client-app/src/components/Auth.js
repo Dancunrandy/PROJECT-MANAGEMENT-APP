@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
-import Navbar from "./Navbar";
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
 
@@ -11,7 +10,6 @@ const Auth = () => {
 
   return (
     <div>
-       <Navbar />
       {isLogin ? <Login /> : <Register />}
       <button onClick={toggleForm}>
         {isLogin

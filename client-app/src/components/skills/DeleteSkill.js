@@ -1,26 +1,47 @@
 import React, { useState } from 'react';
 
-function DeleteSkill ({ skill, onDelete }) {
-  const [showConfirmation, setShowConfirmation] = useState(false);
+const DeleteSkill = () => {
+  const [id, setId] = useState('');
 
-  const handleDelete = () => {
-    // Delete skill from database
-    onDelete();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Send delete skill request to server
+    fetch(`http://localhost:9292/skills/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
   };
 
   return (
     <div>
-      {showConfirmation ? (
-        <div>
-          <p>Are you sure you want to delete this skill?</p>
-          <button onClick={handleDelete}>Yes</button>
-          <button onClick={() => setShowConfirmation(false)}>No</button>
-        </div>
-      ) : (
-        <button onClick={() => setShowConfirmation(true)}>Delete</button>
-      )}
+      <h1>Delete Skill</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          ID:
+          <input
+            type="text"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+          />
+        </label>
+        <button type="submit">Delete Skill</button>
+      </form>
     </div>
   );
-}
+};
 
 export default DeleteSkill;

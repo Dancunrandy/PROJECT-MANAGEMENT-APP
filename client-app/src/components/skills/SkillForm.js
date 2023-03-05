@@ -1,72 +1,60 @@
-import React, { useState } from 'react';
-import DeleteSkill from './DeleteSkill';
-import AddSkill from './AddSkill';
+import { useState } from 'react';
 
-function SkillForm({ skill }) {
-  // set initial state for skillName and skillLevel using the 'useState' hook
-  const [skillName, setSkillName] = useState(skill.name);
-  const [skillLevel, setSkillLevel] = useState(skill.level);
+const SkillForm = () => {
+  const [name, setName] = useState('');
+  const [level, setLevel] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // make a PUT request to update skill in the database
-    const skillId = skill.id; // assuming skill object has an id property
-    const updatedSkill = { id: skillId, name: skillName, level: skillLevel };
-
-    fetch(`http://localhost:9292/skills/${skillId}`, {
-      method: 'PUT',
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Send skill data to server
+    fetch(`http://localhost:9292/skills`, {
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(updatedSkill),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to update skill');
-        }
-        // skill updated successfully, do something here
+      body: JSON.stringify({
+        name,
+        level
       })
-      .catch((error) => {
-        console.error(error);
-      });
-
-    // close the edit form
-    handleClose();
-  };
-
-  const handleClose = () => {
-    // close the edit form
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
   };
 
   return (
     <div>
-      <h2>Edit Skill</h2>
+      <h1>Skill Form</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Name:
           <input
             type="text"
-            value={skillName}
-            onChange={(event) => setSkillName(event.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </label>
         <label>
           Level:
-          <select value={skillLevel} onChange={(event) => setSkillLevel(event.target.value)}>
-            <option value="">Select Level</option>
+          <select value={level} onChange={(e) => setLevel(e.target.value)}>
             <option value="Beginner">Beginner</option>
             <option value="Intermediate">Intermediate</option>
             <option value="Advanced">Advanced</option>
           </select>
         </label>
-        <button type="submit">Update Skill</button>
+        <button type="submit">Submit</button>
       </form>
-      <button onClick={handleClose}>Cancel</button>
-      <DeleteSkill />
-      <AddSkill />
     </div>
   );
-}
+};
 
 export default SkillForm;

@@ -1,59 +1,79 @@
-import React, { useState } from 'react';
-import SkillForm from '../skills/SkillForm';
 
-function EditProject({ project, handleClose }) {
-  const [projectName, setProjectName] = useState(project.name);
-  const [projectDescription, setProjectDescription] = useState(project.description);
-  const [projectUrl, setProjectUrl] = useState(project.url);
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    
-    // make a PUT request to update project in the database
-    const projectId = project.id;
-    const updatedProject = { name: projectName, description: projectDescription, url: projectUrl };
-  
+const EditProject = () => {
+  const { projectId } = useParams();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    fetch(`http://localhost:9292/projects/${projectId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setName(data.name);
+        setDescription(data.description);
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  }, [projectId]);
+
+  const handleEdit = (e) => {
+    e.preventDefault();
     fetch(`http://localhost:9292/projects/${projectId}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedProject),
+      body: JSON.stringify({
+        name,
+        description,
+      }),
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to update project');
+          throw new Error("Network response was not ok");
         }
-        // project updated successfully, do something here
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("There was a problem with the fetch operation:", error);
       });
-  
-    // close the edit form
-    handleClose();
   };
+
   return (
     <div>
-      <h2>Edit Project</h2>
-      <form onSubmit={handleSubmit}>
+      <h1>Edit Project</h1>
+      <form onSubmit={handleEdit}>
         <label>
           Name:
-          <input type="text" value={projectName} onChange={(event) => setProjectName(event.target.value)} />
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </label>
         <label>
           Description:
-          <textarea value={projectDescription} onChange={(event) => setProjectDescription(event.target.value)} />
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </label>
-        <label>
-          URL:
-          <input type="text" value={projectUrl} onChange={(event) => setProjectUrl(event.target.value)} />
-        </label>
-        <button type="submit">Update Project</button>
+        <button type="submit">Save</button>
       </form>
-      <SkillForm/>
     </div>
   );
-}
+};
 
 export default EditProject;
