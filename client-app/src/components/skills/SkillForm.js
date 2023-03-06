@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import AddSkill from './AddSkill';
+import DeleteSkill from './DeleteSkill';
 
 const SkillForm = () => {
   const [name, setName] = useState('');
@@ -7,7 +9,7 @@ const SkillForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Send skill data to server
-    fetch(`http://localhost:9292/skills`, {
+    fetch('/skills', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -17,6 +19,7 @@ const SkillForm = () => {
         level
       })
     })
+    
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -53,6 +56,8 @@ const SkillForm = () => {
         </label>
         <button className='skillform' type="submit">Submit</button>
       </form>
+      <DeleteSkill/>
+      <AddSkill/>
     </div>
   );
 };

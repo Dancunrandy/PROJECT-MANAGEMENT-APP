@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import LogoutButton from '../LogoutButton';
+import EditProject from './EditProject';
+import DeleteProject from './DeleteProject';
 
 const ProjectForm = () => {
   const [name, setName] = useState('');
@@ -53,6 +55,8 @@ const ProjectForm = () => {
         </label>
         <button type="submit">Create</button>
         <LogoutButton/>
+        <EditProject/>
+        <DeleteProject/>
       </form>
     </div>
   );

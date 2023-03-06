@@ -1,7 +1,6 @@
 
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 const EditProject = () => {
   const { projectId } = useParams();
   const [name, setName] = useState("");
