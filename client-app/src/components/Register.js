@@ -4,6 +4,13 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [phone, setPhone] = useState('');
+  const [gender, setGender] = useState('');
+  const [address, setAddress] = useState('');
+  const [student, setStudent] = useState('');
+  const [faculty, setFaculty] = useState('');
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -16,7 +23,14 @@ const Register = () => {
       body: JSON.stringify({
         email,
         password,
-        confirmPassword
+        confirmPassword,
+        name,
+        age,
+        phone,
+        gender,
+        address,
+        student,
+        faculty
       })
     })
     .then(response => {
@@ -59,6 +73,62 @@ const Register = () => {
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </label>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <label>
+          Age:
+          <input
+            type="text"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+        </label>
+        <label>
+          Phone:
+          <input
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </label>
+        <label>
+          Gender:
+          <input
+            type="text"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          />
+        </label>
+        <label>
+          Address:
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          />
+        </label>
+        <label>
+          Student:
+          <input
+            type="text"
+            value={student}
+            onChange={(e) => setStudent(e.target.value)}
+          />
+        </label>
+        <label>
+          Faculty:
+          <input
+            type="text"
+            value={faculty}
+            onChange={(e) => setFaculty(e.target.value)}
           />
         </label>
         <button type="submit">Register</button>
