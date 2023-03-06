@@ -51,7 +51,7 @@ const SkillForm = () => {
             <option value="Advanced">Advanced</option>
           </select>
         </label>
-        <button type="submit">Submit</button>
+        <button className='skillform' type="submit">Submit</button>
       </form>
     </div>
   );

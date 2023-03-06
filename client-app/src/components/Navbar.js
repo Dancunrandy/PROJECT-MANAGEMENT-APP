@@ -15,7 +15,7 @@ const Navbar = () => {
           <Link to="./skillForm">Skills</Link>
         </li>
         <li>
-          <Link to="/contact">Contact</Link>
+          <Link to="/Register">Contact</Link>
         </li>
       </ul>
     </nav>
